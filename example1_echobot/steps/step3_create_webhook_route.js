@@ -6,8 +6,8 @@ function handleFacebookMessage(req, res, next) {
     var senderId = messageEntry.sender.id;
     if (messageEntry.message) {
       if (messageEntry.message.text) {
-        var text = instance.message.text;
-        sendMessage(senderId, text);
+        var text = messageEntry.message.text;
+        sendTextMessage(senderId, text);
       }
     }
   });
@@ -19,9 +19,9 @@ function sendTextMessage(receiver, inputMessage) {
   };
   axios({
     method: 'post',
-    url: conf.FB_MESSENGER_URL,
+    url: process.env.FB_MESSENGER_URL,
     params: {
-      access_token: conf.PAGE_ACCESS_TOKEN,
+      access_token: process.env.PAGE_ACCESS_TOKEN,
     },
     data: {
       recipient: { id: receiver },
@@ -29,10 +29,10 @@ function sendTextMessage(receiver, inputMessage) {
     },
   })
     .then(function(response) {
-      console.log(`Send message ${text} to ${receiver} successfully`);
+      console.log(`Send message ${inputMessage} to ${receiver} successfully`);
     })
     .catch(function(error) {
-      console.log(`Failed send message ${text} to ${receiver}!!`);
+      console.log(`Failed send message ${inputMessage} to ${receiver}!!`);
     });
 }
 app.post('/webhook/', handleFacebookMessage);

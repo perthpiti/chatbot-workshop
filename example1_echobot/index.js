@@ -2,8 +2,6 @@ var axios = require('axios');
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var conf = require('./config');
-
 var app = express();
 app.use(bodyParser.json());
 
